@@ -1,8 +1,8 @@
 :root {
   --bg-color: #111;
   --text-color: #eee;
-  --accent: #39c5bb; /* Miku Teal */
-  --accent-secondary: #ff5e5e; /* Contrast for events */
+  --accent: #39c5bb; 
+  --accent-secondary: #ff5e5e; 
   --line-color: #333;
 }
 
@@ -10,8 +10,8 @@ body {
   margin: 0;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Helvetica Neue', sans-serif;
-  overflow: hidden; /* Prevent scroll, keep it app-like */
+  font-family: 'Cambria',serif;
+  overflow: hidden; /* prevent scroll */
 }
 
 .histography-container {
@@ -154,6 +154,11 @@ body {
   margin-top: 15px;
   font-size: 0.9rem;
   border-radius: 4px;
+}
+
+.artist-name {
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
 .video-container {

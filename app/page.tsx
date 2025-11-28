@@ -4,29 +4,30 @@ import React, { useState, useMemo } from 'react';
 import './globals.css';
 
 interface TimelineItem {
-  id: number;
+  rank: number;
   title: string;
   date: string;
   type: 'event' | 'song';
   desc: string;
   impact: string;
-  videoId?: string; 
+  videoId?: string;
+  artist?: string; 
   position?: number;
 }
 
 // example data, ty gemini :3
 const rawData: TimelineItem[] = [
   { 
-    id: 1, 
+    rank: 1, 
     title: "Hatsune Miku Release", 
     date: "2007-08-31", 
     type: "event", 
     desc: "Crypton Future Media releases Miku using the Vocaloid 2 engine.", 
     impact: "Sparked the global phenomenon.",
-    // no video
+    artist: "Hatsune Miku"
   },
   { 
-    id: 2, 
+    rank: 2, 
     title: "World is Mine", 
     date: "2008-05-31", 
     type: "song", 
@@ -35,7 +36,7 @@ const rawData: TimelineItem[] = [
     videoId: "EuJ6UR_pD5s" 
   },
   { 
-    id: 3, 
+    rank: 3, 
     title: "Miku Expo LA", 
     date: "2011-07-02", 
     type: "event", 
@@ -44,7 +45,7 @@ const rawData: TimelineItem[] = [
     videoId: "rL5YXF8oeTU" 
   },
   { 
-    id: 4, 
+    rank: 4, 
     title: "Porter Robinson uses Avanna", 
     date: "2014-08-12", 
     type: "song", 
@@ -53,7 +54,7 @@ const rawData: TimelineItem[] = [
     videoId: "HAIDqt2aUso"
   },
   { 
-    id: 5, 
+    rank: 5, 
     title: "Coachella Performance", 
     date: "2020-04-10", 
     type: "event", 
@@ -62,7 +63,7 @@ const rawData: TimelineItem[] = [
     videoId: "9N1iw_w9Iu8"
   },
   { 
-    id: 6, 
+    rank: 6, 
     title: "Mesmerizer", 
     date: "2024-05-01", 
     type: "song", 
@@ -98,8 +99,8 @@ export default function Home() {
         <div className="line"></div>
         {processedData.map((item) => (
           <div 
-            key={item.id}
-            className={`node ${item.type} ${selectedEvent?.id === item.id ? 'active' : ''}`}
+            key={item.rank}
+            className={`node ${item.type} ${selectedEvent?.rank === item.rank ? 'active' : ''}`}
             style={{ left: `${item.position}%` }}
             onClick={() => setSelectedEvent(item)}
           >
@@ -115,7 +116,19 @@ export default function Home() {
           <button className="close-btn" onClick={() => setSelectedEvent(null)}>×</button>
           <h2>{selectedEvent.title}</h2>
           <span className="badge">{selectedEvent.type.toUpperCase()}</span>
-          <p className="date">{new Date(selectedEvent.date).toDateString()}</p>
+          <p className="date">
+            {new Date(selectedEvent.date).toDateString()}
+            
+            {/* if artist exists, render this part */}
+            {selectedEvent.artist && (
+              <>
+                <span style={{ margin: "0 10px", opacity: 0.5 }}>|</span>
+                <span className="artist-name" style={{ color: "var(--accent)" }}>
+                  {selectedEvent.artist}
+                </span>
+              </>
+            )}
+          </p>
           
           <hr/>
           
