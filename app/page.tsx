@@ -34,8 +34,8 @@ interface ProcessedTimelineItem extends TimelineItem {
 // State structure to hold the selected event AND its calculated position for clamping
 interface SelectedEventState {
   item: ProcessedTimelineItem;
-  timelinePosition: number; // The clamped 'left' percentage used for the panel's position
-  arrowPosition: number; // Placeholder for potential arrow positioning (not fully utilized in this CSS)
+  timelinePosition: number; 
+  arrowPosition: number; 
 }
 
 interface YearMarker {
@@ -128,13 +128,10 @@ export default function Home() {
   const calculateClampedPosition = (nodeLeftPercentage: number): { clampedPosition: number, arrowPosition: number } => {
 
     const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
-    const panelWidthPercent = (PANEL_WIDTH_PX / viewportWidth) * 100;
-    const halfPanelWidthPercent = panelWidthPercent / 2;
-    const minLeftPercentage = halfPanelWidthPercent + 1; 
-    const maxLeftPercentage = 100 - halfPanelWidthPercent - 4; 
     let clampedPosition = Math.min(
-      Math.max(nodeLeftPercentage, minLeftPercentage),
-      maxLeftPercentage
+      nodeLeftPercentage + 17,
+      nodeLeftPercentage - 17,
+      100 - ((((PANEL_WIDTH_PX / viewportWidth) * 100))/2) - 10
     );
 
     const shiftPercentage = ((nodeLeftPercentage - clampedPosition) / panelWidthPercent) * 100;
@@ -146,10 +143,9 @@ export default function Home() {
 
   const handleNodeClick = (item: ProcessedTimelineItem) => {
     const { clampedPosition, arrowPosition } = calculateClampedPosition(item.position);
-
     setSelectedEvent({
       item: item,
-      timelinePosition: clampedPosition, // Use the CLAMPED position for the panel
+      timelinePosition: clampedPosition, 
       arrowPosition: arrowPosition,
     });
   }
