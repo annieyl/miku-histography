@@ -18,7 +18,7 @@ interface TimelineItem {
   rank: number;
   title: string;
   date: string;
-  type: 'event' | 'song';
+  type: string;
   desc: string;
   impact: string;
   videoId?: string;
