@@ -19,7 +19,8 @@ data on most viewed songs scraped from [vocaloard](https://vocaloard.injpok.toky
     - [x] fix 2025 collision handling if i'm not lazy
 - [ ] manually write & add notable historical events
 - [x] clean up design/graphics
-    - [ ] update detail page position!
+    - [x] update detail page position!
+- [ ] add page handling mobile or limited viewport width
 - [ ] decorate
 - [ ] <span style="color:#39c5bb">miku miku beammmmmmmmm </span>
 - [ ] is this public? thank god nobody will check this, right?

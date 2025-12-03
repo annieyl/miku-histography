@@ -13,6 +13,7 @@ body {
   overflow: hidden; /* prevent scroll */
 }
 
+
 .histography-container {
   height: 100vh;
   width: 100vw;
@@ -24,6 +25,7 @@ body {
 
 .header h1 {
   margin-bottom: 0rem; 
+  text-shadow: var(--text-color) 0px 0px 10px;
 }
 
 p{
@@ -41,7 +43,6 @@ p{
   z-index: 10;
   font-weight: 100;
   font-size: 1.5rem;
-  text-shadow: var(--text-color) 0px 0px 10px;
 }
 
 .subtitle {
@@ -57,7 +58,7 @@ p{
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.1;
+  opacity: 0.3;
   background: linear-gradient(135deg, var(--bg-color), var(--accent));
   z-index: -1; /* Behind everything */
 }
@@ -159,10 +160,13 @@ p{
   opacity: 0; /* Hidden by default */
   transition: opacity 0.2s;
   pointer-events: none;
+  z-index: 200;
 }
+
 
 .node:hover .node-hover-title {
   opacity: 1;
+  text-shadow: var(--text-color) 0px 0px 10px;
 }
 
 /* --- DETAILS PANEL --- */

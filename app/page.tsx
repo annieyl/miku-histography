@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import './globals.css';
-import rawData from './data.json';
+import rawData from './data/data.json';
 import { WindSong, Inconsolata} from 'next/font/google'
+
 
 const windsong   = WindSong({
   subsets: ['latin'],
@@ -25,16 +26,16 @@ interface TimelineItem {
   position?: number;
 }
 
-// Interface for processed data with calculated positions
+
 interface ProcessedTimelineItem extends TimelineItem {
-  position: number; // Horizontal position (left: X%)
-  verticalOffset: number; // Vertical offset (e.g., -100px or +100px)
+  position: number; //left: X%
+  verticalOffset: number; 
 }
 
-// State structure to hold the selected event AND its calculated position for clamping
+
 interface SelectedEventState {
   item: ProcessedTimelineItem;
-  timelinePosition: number; // The clamped 'left' percentage used for the panel's position
+  timelinePosition: number; //as left %age
   arrowPosition: number; 
 }
 
@@ -49,8 +50,21 @@ const HORIZONTAL_COLLISION_THRESHOLD = 1;
 const VERTICAL_OFFSET_STEP = 15;
 const MAX_VERTICAL_LEVEL = 20;
 
+//bg mgmt
+const DEFAULT = 'url(/Hatsune_Miku.png)';
+const CLICK = 'url(/Hatsune_Miku_V2.png)';
+
 export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEventState | null>(null);
+
+  const [bg, setbg] = useState<string>(DEFAULT);
+  
+  //yes this should be css, but i am tired and the blend mode keeps not working. lol.
+  document.body.style.backgroundImage = bg;
+  document.body.style.backgroundSize = '45%';
+  document.body.style.backgroundPosition = 'bottom right';
+  document.body.style.backgroundBlendMode = 'multiply';
+  document.body.style.backgroundRepeat = 'no-repeat';
 
   const { processedData, yearMarkers } = useMemo(() => {
     const sorted = [...rawData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -60,7 +74,7 @@ export default function Home() {
     const maxDate = new Date(sorted[sorted.length - 1].date).getTime();
     const timeSpan = maxDate - minDate;
 
-    // --- 1. Calculate Event Node Positions ---
+    // calculate Event Node Positions ---
     const occupiedPositions: Map<number, number> = new Map();
     const processedData: ProcessedTimelineItem[] = sorted.map((item) => {
       // Calculate horizontal position (5% to 95% of the track)
@@ -129,14 +143,14 @@ export default function Home() {
 
     const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
     const panelWidthPercent = (PANEL_WIDTH_PX / viewportWidth) * 100;
-    
+
     let clampedPosition: number;
     
     if (nodeLeftPercentage > 50) {
       // Right side
-      clampedPosition = nodeLeftPercentage - 17;
+      clampedPosition = nodeLeftPercentage - 20;
     } else {
-        clampedPosition = nodeLeftPercentage + 17;
+        clampedPosition = nodeLeftPercentage + 20;
     }
 
     const shiftPercentage = ((nodeLeftPercentage - clampedPosition) / panelWidthPercent) * 100;
@@ -156,13 +170,16 @@ export default function Home() {
   }
 
   // Function to close the panel
-  const closeEvent = () => setSelectedEvent(null);
+  const closeEvent = () => {
+    setSelectedEvent(null);
+  }
 
   return (
+    
     <main className={`histography-container ${inconsolata.className}`}>
       <header className="header">
-        <h1>vocaloid history <span className="subtitle">(a western view)</span></h1>
-        <p> by annie liu, for gen mus 175</p>
+        <h1>vocaloid history :D <span className="subtitle">(a western view)</span></h1>
+        <p> by annie liu, for gen mus 175. click a timeline item to get started!!</p>
       </header>
 
       <div className="timeline-track">
@@ -257,6 +274,7 @@ export default function Home() {
           data scraped from vocaloard, current as of november 2025
         </p>
       </footer>
+      
     </main>
   );
 }
