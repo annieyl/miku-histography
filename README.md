@@ -15,7 +15,8 @@ data on most viewed songs scraped from [vocaloard](https://vocaloard.injpok.toky
     - [ ] fix missing songs/scraping discrepancies with site? 
 - [ ] update frontend with rank display 
 - [ ] update notable songs with desc & impact
-- [ ] if necessary, either minimize dataset or add collision handling
+- [x] if necessary, either minimize dataset or add collision handling
+    - [ ] fix 2025 collision handling if i'm not lazy
 - [ ] manually write & add notable historical events
 - [ ] clean up design/graphics
 - [ ] decorate

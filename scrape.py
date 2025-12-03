@@ -99,5 +99,5 @@ def scrape(start_page=0, end_page=1):
 
 
 if __name__ == "__main__":
-    scrape(start_page=0, end_page=1) #first 100
+    scrape(start_page=0, end_page=3) #first 100
     # scrape(start_page=0, end_page=0) #debugging
