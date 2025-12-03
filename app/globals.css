@@ -35,13 +35,18 @@ body {
   font-weight: 300;
 }
 
-.timeline-track {
+timeline-track {
+  width: 20%;
+  height: 100px; /* Space for the line and nodes */
+  overflow-x: scroll; /* KEY: Enables horizontal scrolling */
+  overflow-y: hidden;
+  padding: 0 5%;
   position: relative;
-  width: 90%;
-  height: 200px; /* Interaction area height */
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
+  /* Ensure the track is wide enough to scroll */
+  /* This value is arbitrary; the content (the nodes) must force the scrollWidth */
+  min-width: 1500px; 
+  cursor: grab;
+  margin-bottom: 100px; 
 }
 
 .line {

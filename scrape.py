@@ -94,10 +94,10 @@ def scrape(start_page=0, end_page=1):
         
         time.sleep(1)
 
-    with open("./public/data.json", "w", encoding="utf-8") as file:
+    with open("./app/data.json", "w", encoding="utf-8") as file:
         json.dump(all_songs, file, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    # scrape(start_page=0, end_page=3) #first 100
-    scrape(start_page=0, end_page=0) #debugging
+    scrape(start_page=0, end_page=1) #first 100
+    # scrape(start_page=0, end_page=0) #debugging

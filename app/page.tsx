@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import './globals.css';
+import rawData from './data.json';
 
 interface TimelineItem {
   rank: number;
@@ -15,63 +16,7 @@ interface TimelineItem {
   position?: number;
 }
 
-// example data, ty gemini :3
-const rawData: TimelineItem[] = [
-  { 
-    rank: 1, 
-    title: "Hatsune Miku Release", 
-    date: "2007-08-31", 
-    type: "event", 
-    desc: "Crypton Future Media releases Miku using the Vocaloid 2 engine.", 
-    impact: "Sparked the global phenomenon.",
-    artist: "Hatsune Miku"
-  },
-  { 
-    rank: 2, 
-    title: "World is Mine", 
-    date: "2008-05-31", 
-    type: "song", 
-    desc: "Produced by ryo (Supercell). The quintessential 'princess' song.", 
-    impact: "Considered the 'anthem' of Miku.",
-    videoId: "EuJ6UR_pD5s" 
-  },
-  { 
-    rank: 3, 
-    title: "Miku Expo LA", 
-    date: "2011-07-02", 
-    type: "event", 
-    desc: "First major North American concert.", 
-    impact: "Solidified Western fanbase.",
-    videoId: "rL5YXF8oeTU" 
-  },
-  { 
-    rank: 4, 
-    title: "Porter Robinson uses Avanna", 
-    date: "2014-08-12", 
-    type: "song", 
-    desc: "Porter releases 'Sad Machine' using Vocaloid Avanna.", 
-    impact: "Bridged EDM and Vocaloid culture in the West.",
-    videoId: "HAIDqt2aUso"
-  },
-  { 
-    rank: 5, 
-    title: "Coachella Performance", 
-    date: "2020-04-10", 
-    type: "event", 
-    desc: "Miku scheduled for Coachella (delayed due to pandemic).", 
-    impact: "Mainstream Western recognition.",
-    videoId: "9N1iw_w9Iu8"
-  },
-  { 
-    rank: 6, 
-    title: "Mesmerizer", 
-    date: "2024-05-01", 
-    type: "song", 
-    desc: "Viral hit by Satsuki", 
-    impact: "Exploded on TikTok, introducing Gen Alpha to Vocaloid.",
-    videoId: "19y8YTbvri8"
-  }
-];
+
 
 export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<TimelineItem | null>(null);
