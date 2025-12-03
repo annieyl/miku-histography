@@ -3,7 +3,15 @@
 import React, { useState, useMemo } from 'react';
 import './globals.css';
 import rawData from './data.json';
-// rawData is assumed to be an array of TimelineItem objects
+import { WindSong, Inconsolata} from 'next/font/google'
+
+const windsong   = WindSong({
+  subsets: ['latin'],
+  weight: '400',
+})
+const inconsolata = Inconsolata({
+  subsets: ['latin']
+})
 
 interface TimelineItem {
   rank: number;
@@ -151,9 +159,10 @@ export default function Home() {
   const closeEvent = () => setSelectedEvent(null);
 
   return (
-    <main className="histography-container">
+    <main className={`histography-container ${inconsolata.className}`}>
       <header className="header">
-        <h1>VOCALOID HISTORY <span className="subtitle">IN THE WEST</span></h1>
+        <h1>vocaloid history <span className="subtitle">(a western view)</span></h1>
+        <p> by annie liu, for gen mus 175</p>
       </header>
 
       <div className="timeline-track">

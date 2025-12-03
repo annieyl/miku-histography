@@ -18,8 +18,8 @@ data on most viewed songs scraped from [vocaloard](https://vocaloard.injpok.toky
 - [x] if necessary, either minimize dataset or add collision handling
     - [ ] fix 2025 collision handling if i'm not lazy
 - [ ] manually write & add notable historical events
-- [ ] clean up design/graphics
-- [ ] decorate
+- [x] clean up design/graphics
+- [x] decorate
 - [ ] <span style="color:#39c5bb">miku miku beammmmmmmmm </span>
 - [ ] is this public? thank god nobody will check this, right?
 

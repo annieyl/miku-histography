@@ -10,7 +10,6 @@ body {
   margin: 0;
   background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: 'Cambria',serif;
   overflow: hidden; /* prevent scroll */
 }
 
@@ -22,17 +21,38 @@ body {
   position: relative;
 }
 
+
+.header h1 {
+  margin-bottom: 0rem; 
+}
+
+p{
+  margin-top: 0rem;
+  color: var(--accent);
+  font-weight: 400;
+  font-family: inconsolata, monospace;
+  font-size: 1rem;
+}
+
 .header {
   position: absolute;
-  top: 20px;
+  /* top: 20px; */
   left: 40px;
   z-index: 10;
+  font-weight: 100;
+  font-size: 1.5rem;
+  text-shadow: #eee 0px 0px 10px;
 }
 
 .subtitle {
-  color: var(--accent);
+  color: var(--text-color);
   font-weight: 300;
+  font-size: 1.25rem;
+  margin-left:-1rem;
 }
+
+
+
 .timeline-track {
   position: relative; /* THIS IS THE KEY FIX */
   width: 100%;
@@ -73,7 +93,7 @@ body {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
-  color: var(--accent);
+  color: var(--text-color);
   font-size: 1rem;
   font-weight: 300;
   margin-top: 1008px;   
