@@ -34,7 +34,7 @@ interface ProcessedTimelineItem extends TimelineItem {
 // State structure to hold the selected event AND its calculated position for clamping
 interface SelectedEventState {
   item: ProcessedTimelineItem;
-  timelinePosition: number; 
+  timelinePosition: number; // The clamped 'left' percentage used for the panel's position
   arrowPosition: number; 
 }
 
@@ -128,11 +128,16 @@ export default function Home() {
   const calculateClampedPosition = (nodeLeftPercentage: number): { clampedPosition: number, arrowPosition: number } => {
 
     const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1000;
-    let clampedPosition = Math.min(
-      nodeLeftPercentage + 17,
-      nodeLeftPercentage - 17,
-      100 - ((((PANEL_WIDTH_PX / viewportWidth) * 100))/2) - 10
-    );
+    const panelWidthPercent = (PANEL_WIDTH_PX / viewportWidth) * 100;
+    
+    let clampedPosition: number;
+    
+    if (nodeLeftPercentage > 50) {
+      // Right side
+      clampedPosition = nodeLeftPercentage - 17;
+    } else {
+        clampedPosition = nodeLeftPercentage + 17;
+    }
 
     const shiftPercentage = ((nodeLeftPercentage - clampedPosition) / panelWidthPercent) * 100;
     const arrowPosition = 50 + shiftPercentage;
