@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import './globals.css';
 import rawData from './data/data.json';
 import { WindSong, Inconsolata} from 'next/font/google'
@@ -60,11 +60,13 @@ export default function Home() {
   const [bg, setbg] = useState<string>(DEFAULT);
   
   //yes this should be css, but i am tired and the blend mode keeps not working. lol.
-  document.body.style.backgroundImage = bg;
-  document.body.style.backgroundSize = '45%';
-  document.body.style.backgroundPosition = 'bottom right';
-  document.body.style.backgroundBlendMode = 'multiply';
-  document.body.style.backgroundRepeat = 'no-repeat';
+  useEffect(() => {
+    document.body.style.backgroundImage = bg;
+    document.body.style.backgroundSize = '45%';
+    document.body.style.backgroundPosition = 'bottom right';
+    document.body.style.backgroundBlendMode = 'multiply';
+    document.body.style.backgroundRepeat = 'no-repeat';
+  }, [bg]);
 
   const { processedData, yearMarkers } = useMemo(() => {
     const sorted = [...rawData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
