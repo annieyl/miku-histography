@@ -13,13 +13,14 @@ data on most viewed songs scraped from [vocaloard](https://vocaloard.injpok.toky
 - [x] scrape actual vocaloid music data 
     - [x] fix scraping of ranks, adjust json handling
     - [ ] fix missing songs/scraping discrepancies with site? 
-- [ ] update frontend with rank display 
+- [x] update frontend with rank display 
 - [ ] update notable songs with desc & impact
 - [x] if necessary, either minimize dataset or add collision handling
-    - [ ] fix 2025 collision handling if i'm not lazy
+    - [x] fix 2025 collision handling if i'm not lazy
 - [ ] manually write & add notable historical events
 - [x] clean up design/graphics
-- [x] decorate
+    - [ ] update detail page position!
+- [ ] decorate
 - [ ] <span style="color:#39c5bb">miku miku beammmmmmmmm </span>
 - [ ] is this public? thank god nobody will check this, right?
 

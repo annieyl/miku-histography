@@ -41,7 +41,7 @@ p{
   z-index: 10;
   font-weight: 100;
   font-size: 1.5rem;
-  text-shadow: #eee 0px 0px 10px;
+  text-shadow: var(--text-color) 0px 0px 10px;
 }
 
 .subtitle {
@@ -51,6 +51,16 @@ p{
   margin-left:-1rem;
 }
 
+.bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  background: linear-gradient(135deg, var(--bg-color), var(--accent));
+  z-index: -1; /* Behind everything */
+}
 
 
 .timeline-track {
@@ -61,14 +71,15 @@ p{
 /* Ensure your main timeline line is visible */
 .timeline-track .line {
   position: absolute;
-  top: 50%; /* Center the line */
+  top: 50.8%; /* Center the line */
   left: 5%;
   width: 90%;
-  height: 2px;
+  height: 1px;
   background-color: beige;
   transform: translateY(-50%);
-  z-index: 2; /* Keep the main line above the year markers */
+  z-index: 2; 
   overflow: visible;
+  box-shadow: #eee 0px 0px 15px;
 }
 
 .line {
@@ -115,7 +126,8 @@ p{
   border-radius: 50%;
   background-color: #555;
   transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  box-shadow: var(--accent) 0px 0px 10px;
+  opacity:60%;
 }
 
 /* color coding */
@@ -126,6 +138,7 @@ p{
 .node:hover .node-dot {
   transform: scale(1.5);
   box-shadow: 0 0 15px var(--accent);
+  opacity:100%;
 }
 
 .node.active .node-dot {
@@ -135,14 +148,6 @@ p{
 }
 
 /* labels */
-.node-date {
-  position: absolute;
-  top: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.8rem;
-  opacity: 0.5;
-}
 
 .node-hover-title {
   position: absolute;
@@ -164,12 +169,9 @@ p{
 .event-details {
   position: absolute;
   bottom: 50px;
-  /* REMOVED: left: 50%; */ 
-  /* UPDATED: We use left: X% set by React, and then translateX centers it based on that X% */
   transform: translateX(-50%); 
   width: 400px;
   background: rgba(30, 30, 30, 0.95);
-  backdrop-filter: blur(10px);
   padding: 25px;
   border-left: 4px solid var(--accent);
   border-radius: 4px;
@@ -182,7 +184,6 @@ p{
 }
 
 @keyframes fadeIn {
-  /* MODIFIED: Removed the translateY from the 'to' state, as we only need translateX */
   from { opacity: 0; transform: translate(-50%, 20px); }
   to { opacity: 1; transform: translate(-50%, 0); } 
 }

@@ -44,10 +44,10 @@ interface YearMarker {
 }
 
 // CONSTANTS FOR CLAMPING AND STAGGERING
-const PANEL_WIDTH_PX = 400; // Must match the .event-details width in CSS
+const PANEL_WIDTH_PX = 400; // match the .event-details width in CSS
 const HORIZONTAL_COLLISION_THRESHOLD = 1;
-const VERTICAL_OFFSET_STEP = 25;
-const MAX_VERTICAL_LEVEL = 10;
+const VERTICAL_OFFSET_STEP = 15;
+const MAX_VERTICAL_LEVEL = 20;
 
 export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<SelectedEventState | null>(null);
@@ -75,7 +75,6 @@ export default function Home() {
       // Staggering logic
       while (isColliding && level <= MAX_VERTICAL_LEVEL) {
         isColliding = false;
-        // Alternate between positive and negative vertical offsets (0, +25, -25, +50, -50...)
         const currentOffset = level * VERTICAL_OFFSET_STEP * (level % 2 === 0 ? 1 : -1);
 
         for (const [pos, lvl] of occupiedPositions.entries()) {
@@ -238,15 +237,25 @@ export default function Home() {
           )}
 
           {/* DESCRIPTION AND IMPACT */}
-          <p className="description">{selectedEvent.item.desc}</p>
           <div className="impact-box">
-            <strong>Cultural Impact:</strong>
+            <strong>description</strong>
+            <p>popularity rank: {selectedEvent.item.rank}</p>
+            <p>{selectedEvent.item.desc}</p>
+          </div>
+          <div className="impact-box">
+            <strong>impact</strong>
             <p>{selectedEvent.item.impact}</p>
           </div>
         </div>
       )}
 
       <div className="bg-gradient"></div>
+
+      <footer>
+        <p style={{ textAlign: "right", marginTop: "2rem", marginRight: "1rem" , fontSize:"0.8rem", color:"var(--text-color)", opacity:"0.4"}}>
+          data scraped from vocaloard, current as of november 2025
+        </p>
+      </footer>
     </main>
   );
 }
