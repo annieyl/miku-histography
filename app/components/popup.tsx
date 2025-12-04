@@ -15,7 +15,7 @@ const welcomeText = [
 ];
 
 const Popup = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [step, setStep] = useState(0);
   
 
