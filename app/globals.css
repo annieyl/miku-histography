@@ -22,10 +22,19 @@ body {
   position: relative;
 }
 
-
 .header h1 {
   margin-bottom: 0rem; 
   text-shadow: var(--text-color) 0px 0px 10px;
+  animation: glowh1 1s infinite alternate;
+}
+
+@keyframes glowh1 {
+  from {
+    text-shadow: var(--text-color) 0px 0px 10px;
+  }
+  to {
+    text-shadow: var(--text-color) 0px 0px 30px;
+  }
 }
 
 p{
@@ -93,7 +102,7 @@ p{
 /* --- Year Marker Styles --- */
 .year-marker {
   position: absolute;
-  top: 15vh; 
+  top: 20vh; 
   height: 100%; 
   width: 1px; 
   background-color: rgba(255, 255, 255, 0.1); /* Subtle color for the line */
@@ -129,6 +138,7 @@ p{
   transition: all 0.3s ease;
   box-shadow: var(--accent) 0px 0px 10px;
   opacity:80%;
+  z-index:-1;
 }
 
 /* color coding */
@@ -160,13 +170,12 @@ p{
   opacity: 0; /* Hidden by default */
   transition: opacity 0.2s;
   pointer-events: none;
-  z-index: 200;
+
 }
 
 
 .node:hover .node-hover-title {
   opacity: 1;
-  text-shadow: var(--text-color) 0px 0px 10px;
 }
 
 /* --- DETAILS PANEL --- */
@@ -174,13 +183,14 @@ p{
   position: absolute;
   bottom: 50px;
   transform: translateX(-50%); 
-  width: 400px;
-  background: rgba(30, 30, 30, 0.95);
-  padding: 25px;
-  border-left: 4px solid var(--accent);
-  border-radius: 4px;
+  width: 300px;
+  background: rgba(30, 30, 30, 0.50);
+  padding: 15px 20px;
+  pointer-events: none; 
+  border: solid 1px #eee;
+  border-radius: 2px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  z-index: 20;
+  z-index: 10;
 }
 
 .fade-in {
@@ -198,9 +208,16 @@ p{
   right: 15px;
   background: none;
   border: none;
-  color: #777;
+  color: var(--text-color);
   font-size: 1.5rem;
   cursor: pointer;
+  pointer-events:auto;
+}
+
+.h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.2rem;
 }
 
 .impact-box {
@@ -211,19 +228,23 @@ p{
   border-radius: 4px;
 }
 
+
 .artist-name {
   font-weight: bold;
   letter-spacing: 0.5px;
+  font-size: 1rem;
 }
 
 .video-container {
   position: relative;
   overflow: hidden;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  padding-top: 56.25%;
   margin-bottom: 15px;
   border-radius: 4px;
   background: #000;
+  pointer-events:auto;
+  z-index: 5;
 }
 
 .video-container iframe {

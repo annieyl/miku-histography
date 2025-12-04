@@ -71,73 +71,104 @@ export default function Home() {
     const sorted = [...rawData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     if (sorted.length === 0) return { processedData: [], yearMarkers: [] };
 
-    const minDate = new Date(sorted[0].date).getTime();
-    const maxDate = new Date(sorted[sorted.length - 1].date).getTime();
-    const timeSpan = maxDate - minDate;
+    const minDate = new Date(sorted[0].date).getTime() - 500 * 60 * 60 * 24 * 365; // add one year buffer
+    const maxDate = new Date(sorted[sorted.length - 1].date).getTime() + 500 * 60; // add one year buffer
 
-    // calculate Event Node Positions ---
+    //expanding 2025 b
+    const YEAR_TO_EXPAND = 2025;
+    const EXPANSION_FACTOR = 3; 
+    const START_OF_EXPANSION = new Date(`${YEAR_TO_EXPAND}-01-01`).getTime();
+
+    // virtual time span
+    const durationBefore = Math.max(0, START_OF_EXPANSION - minDate);
+    const duration2025 = Math.max(0, maxDate - START_OF_EXPANSION);
+    const expandedDuration2025 = duration2025 * EXPANSION_FACTOR;
+    const virtualTimeSpan = durationBefore + expandedDuration2025;
+
+    //helper to get time elapsed
+    const getVirtualTimeElapsed = (dateMs: number) => {
+        if (dateMs < START_OF_EXPANSION) {
+            // Standard scale before 2025
+            return dateMs - minDate;
+        } else {
+            // Expanded scale within 2025
+            const timeIn2025 = dateMs - START_OF_EXPANSION;
+            return durationBefore + (timeIn2025 * EXPANSION_FACTOR);
+        }
+    };
+
+    // --- 1. Calculate Event Node Positions (Processed Data) ---
     const occupiedPositions: Map<number, number> = new Map();
-    const processedData: ProcessedTimelineItem[] = sorted.map((item) => {
-      // Calculate horizontal position (5% to 95% of the track)
-      const horizontalPosition = timeSpan === 0
-        ? 50
-        : ((new Date(item.date).getTime() - minDate) / timeSpan) * 90 + 5;
+    const processedData = sorted.map((item) => {
+        const itemDateMs = new Date(item.date).getTime();
+        
+        const virtualTimeElapsed = getVirtualTimeElapsed(itemDateMs);
+        
+        // Calculate horizontal position (5% to 95% of the track)
+        const horizontalPosition = virtualTimeSpan === 0
+            ? 50
+            : (virtualTimeElapsed / virtualTimeSpan) * 90 + 5;
 
-      let finalVerticalOffset = 0;
-      let level = 0;
-      let isColliding = true;
+        // ... (Staggering Logic - remains unchanged)
+        let finalVerticalOffset = 0;
+        let level = 0;
+        let isColliding = true;
 
-      // Staggering logic
-      while (isColliding && level <= MAX_VERTICAL_LEVEL) {
-        isColliding = false;
-        const currentOffset = level * VERTICAL_OFFSET_STEP * (level % 2 === 0 ? 1 : -1);
+        while (isColliding && level <= MAX_VERTICAL_LEVEL) {
+            isColliding = false;
+            const currentOffset = level * VERTICAL_OFFSET_STEP * (level % 2 === 0 ? 1 : -1);
 
-        for (const [pos, lvl] of occupiedPositions.entries()) {
-          const horizontalClash = Math.abs(pos - horizontalPosition) < HORIZONTAL_COLLISION_THRESHOLD;
+            for (const [pos, lvl] of occupiedPositions.entries()) {
+                const horizontalClash = Math.abs(pos - horizontalPosition) < HORIZONTAL_COLLISION_THRESHOLD;
 
-          if (horizontalClash && Math.abs(lvl) === level) {
-            isColliding = true;
-            break;
-          }
+                if (horizontalClash && Math.abs(lvl) === level) {
+                    isColliding = true;
+                    break;
+                }
+            }
+
+            if (!isColliding) {
+                finalVerticalOffset = currentOffset;
+                break;
+            }
+
+            level++;
         }
 
-        if (!isColliding) {
-          finalVerticalOffset = currentOffset;
-          break;
-        }
+        occupiedPositions.set(horizontalPosition, level * (level % 2 === 0 ? 1 : -1));
+        // ... (End Staggering Logic)
 
-        level++;
-      }
-
-      occupiedPositions.set(horizontalPosition, level * (level % 2 === 0 ? 1 : -1));
-
-      return {
-        ...item,
-        position: horizontalPosition,
-        verticalOffset: finalVerticalOffset,
-      };
+        return {
+            ...item,
+            position: horizontalPosition,
+            verticalOffset: finalVerticalOffset,
+        };
     });
 
     // --- 2. Calculate Year Marker Positions ---
     const startYear = new Date(minDate).getFullYear();
     const endYear = new Date(maxDate).getFullYear();
-    const markers: YearMarker[] = [];
+    const markers = [];
 
     for (let year = startYear; year <= endYear; year++) {
-      const yearDate = new Date(`${year}-01-01`).getTime();
+        const yearDate = new Date(`${year}-01-01`).getTime();
 
-      const position = timeSpan === 0
-        ? 50
-        : ((yearDate - minDate) / timeSpan) * 90 + 5;
+        // 🚀 Use helper function for scaled time
+        const virtualTimeElapsed = getVirtualTimeElapsed(yearDate);
 
-      if (position >= 5 && position <= 95) {
-        markers.push({ year, position });
-      }
+        // Calculate position using the VIRTUAL time span
+        const position = virtualTimeSpan === 0
+            ? 50
+            : (virtualTimeElapsed / virtualTimeSpan) * 90 + 5;
+
+        if (position >= 5 && position <= 95) {
+            markers.push({ year, position });
+        }
     }
 
     return { processedData, yearMarkers: markers };
 
-  }, [rawData]);
+}, [rawData]);
 
 
   const calculateClampedPosition = (nodeLeftPercentage: number): { clampedPosition: number, arrowPosition: number } => {
@@ -147,11 +178,11 @@ export default function Home() {
 
     let clampedPosition: number;
     
-    if (nodeLeftPercentage > 50) {
-      // Right side
-      clampedPosition = nodeLeftPercentage - 20;
+    if (nodeLeftPercentage > 40) {
+      //right side
+      clampedPosition = nodeLeftPercentage - 18;
     } else {
-        clampedPosition = nodeLeftPercentage + 20;
+        clampedPosition = nodeLeftPercentage + 18;
     }
 
     const shiftPercentage = ((nodeLeftPercentage - clampedPosition) / panelWidthPercent) * 100;
@@ -218,22 +249,26 @@ export default function Home() {
       {selectedEvent && (
         <div
           className="event-details fade-in"
-          // Use the CLAMPED position for the panel
           style={{ left: `${selectedEvent.timelinePosition}%` }}
         >
           <button className="close-btn" onClick={closeEvent}>×</button>
 
+
           {/* TITLE & METADATA */}
-          <h2>{selectedEvent.item.title}</h2>
-          <span className="badge">{selectedEvent.item.type.toUpperCase()}</span>
-          <p className="date">
-            {new Date(selectedEvent.item.date).toDateString()}
+          <h2 style={{fontSize: "1.25rem", marginBottom: "0.5rem"}}>{selectedEvent.item.title}</h2>
+          <span className="badge" style = {{
+            color: selectedEvent.item.type.toUpperCase() === 'SONG' 
+              ? 'var(--accent)' 
+              : 'var(--accent-secondary)'}}>
+              {selectedEvent.item.type.toUpperCase()}</span>
+          <p className="date" style={{color:"var(--text-color)"}}>
+            {new Date(selectedEvent.item.date).toDateString().slice(4,)}
 
             {/* RENDER ARTIST IF IT EXISTS */}
             {selectedEvent.item.artist && (
               <>
                 <span style={{ margin: "0 10px", opacity: 0.5 }}>|</span>
-                <span className="artist-name" style={{ color: "var(--accent)" }}>
+                <span className="artist-name" style={{}}>
                   {selectedEvent.item.artist}
                 </span>
               </>
@@ -258,7 +293,9 @@ export default function Home() {
           {/* DESCRIPTION AND IMPACT */}
           <div className="impact-box">
             <strong>description</strong>
-            <p>popularity rank: {selectedEvent.item.rank}</p>
+              {selectedEvent.item.rank !== undefined && selectedEvent.item.rank >= 1 && (
+                <p>popularity rank: {selectedEvent.item.rank}</p>
+              )}
             <p>{selectedEvent.item.desc}</p>
           </div>
         </div>
