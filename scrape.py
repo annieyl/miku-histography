@@ -84,7 +84,6 @@ def scrape(start_page=0, end_page=1):
                     "date": formatted_date,
                     "type": "song",
                     "desc": "",
-                    "impact": "",
                     "videoId": video_id
                 }
                 
@@ -94,10 +93,12 @@ def scrape(start_page=0, end_page=1):
         
         time.sleep(1)
 
-    with open("./app/data.json", "w", encoding="utf-8") as file:
+    with open("./app/data/data.json", "w", encoding="utf-8") as file:
+        file.truncate()
         json.dump(all_songs, file, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    scrape(start_page=0, end_page=3) #first 100
+    scrape(start_page=0, end_page=2) #first 75ish
+    
     # scrape(start_page=0, end_page=0) #debugging

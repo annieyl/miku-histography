@@ -15,12 +15,11 @@ const inconsolata = Inconsolata({
 })
 
 interface TimelineItem {
-  rank: number;
+  rank?: number;
   title: string;
   date: string;
   type: string;
   desc: string;
-  impact: string;
   videoId?: string;
   artist?: string;
   position?: number;
@@ -261,10 +260,6 @@ export default function Home() {
             <strong>description</strong>
             <p>popularity rank: {selectedEvent.item.rank}</p>
             <p>{selectedEvent.item.desc}</p>
-          </div>
-          <div className="impact-box">
-            <strong>impact</strong>
-            <p>{selectedEvent.item.impact}</p>
           </div>
         </div>
       )}
