@@ -1,5 +1,5 @@
 // components/popup.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Inconsolata} from 'next/font/google'
 
 const inconsolata = Inconsolata({
@@ -15,14 +15,24 @@ const welcomeText = [
 ];
 
 const Popup = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const [step, setStep] = useState(0);
+  
+
+
   const handleNext = () => {
     if (step < welcomeText.length - 1) {
       setStep(step + 1);
     } else {
+      setIsVisible(false);
       localStorage.setItem('hasSeenWelcomePopup', 'true');
     }
   };
+
+  if (!isVisible) {
+    return null; // don't render anything if not visible
+  }
+
   const buttonText = step === welcomeText.length - 1 ? 'start!!!!!!!!!!!!' : 'next';
 
   return (
