@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react';
 import './globals.css';
 import rawData from './data/data.json';
 import { WindSong, Inconsolata} from 'next/font/google'
+import Popup from './components/popup';
 
 
 const windsong   = WindSong({
@@ -45,8 +46,8 @@ interface YearMarker {
 
 // CONSTANTS FOR CLAMPING AND STAGGERING
 const PANEL_WIDTH_PX = 400; // match the .event-details width in CSS
-const HORIZONTAL_COLLISION_THRESHOLD = 1;
-const VERTICAL_OFFSET_STEP = 15;
+const HORIZONTAL_COLLISION_THRESHOLD = 1.25;
+const VERTICAL_OFFSET_STEP = 30;
 const MAX_VERTICAL_LEVEL = 20;
 
 //bg mgmt
@@ -97,26 +98,28 @@ export default function Home() {
         }
     };
 
-    // --- 1. Calculate Event Node Positions (Processed Data) ---
+    // event node positions
     const occupiedPositions: Map<number, number> = new Map();
     const processedData = sorted.map((item) => {
         const itemDateMs = new Date(item.date).getTime();
         
         const virtualTimeElapsed = getVirtualTimeElapsed(itemDateMs);
         
-        // Calculate horizontal position (5% to 95% of the track)
+        // calc horizontal position (5% to 95% of the track)
         const horizontalPosition = virtualTimeSpan === 0
             ? 50
             : (virtualTimeElapsed / virtualTimeSpan) * 90 + 5;
 
-        // ... (Staggering Logic - remains unchanged)
+        // ...staggering
         let finalVerticalOffset = 0;
         let level = 0;
         let isColliding = true;
 
         while (isColliding && level <= MAX_VERTICAL_LEVEL) {
             isColliding = false;
-            const currentOffset = level * VERTICAL_OFFSET_STEP * (level % 2 === 0 ? 1 : -1);
+            const magnitude = Math.ceil(level / 2) * VERTICAL_OFFSET_STEP;
+            const sign = level % 2 === 0 ? 1 : -1;
+            const currentOffset = magnitude * sign;
 
             for (const [pos, lvl] of occupiedPositions.entries()) {
                 const horizontalClash = Math.abs(pos - horizontalPosition) < HORIZONTAL_COLLISION_THRESHOLD;
@@ -145,7 +148,7 @@ export default function Home() {
         };
     });
 
-    // --- 2. Calculate Year Marker Positions ---
+    //year markers
     const startYear = new Date(minDate).getFullYear();
     const endYear = new Date(maxDate).getFullYear();
     const markers = [];
@@ -153,10 +156,8 @@ export default function Home() {
     for (let year = startYear; year <= endYear; year++) {
         const yearDate = new Date(`${year}-01-01`).getTime();
 
-        // 🚀 Use helper function for scaled time
         const virtualTimeElapsed = getVirtualTimeElapsed(yearDate);
 
-        // Calculate position using the VIRTUAL time span
         const position = virtualTimeSpan === 0
             ? 50
             : (virtualTimeElapsed / virtualTimeSpan) * 90 + 5;
@@ -209,6 +210,7 @@ export default function Home() {
   return (
     
     <main className={`histography-container ${inconsolata.className}`}>
+      <Popup />
       <header className="header">
         <h1>a vocaloid timeline<span className="subtitle">(from a western perspective)</span></h1>
         <p> by annie liu, for gen mus 175. click a timeline item to get started!!</p>
@@ -324,7 +326,7 @@ export default function Home() {
           data scraped from vocaloard, current as of november 2025
         </p>
       </footer>
-      
+
     </main>
   );
 }

@@ -12,7 +12,7 @@ new = \
   },
   {
     "rank": -2,
-    "title": "LEON and LOLA",
+    "title": "LOLA",
     "date": "2004-01-15",
     "type": "event",
     "desc": "The first two Vocaloid voicebanks were released by the British company Zero-G; they were English-exclusive. Marked the commercial launch of Vocaloid, originating in the West with English voicebanks, preceding the Japanese releases",

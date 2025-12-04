@@ -25,9 +25,9 @@ critical
 
 optional
 - [ ] add page handling mobile or limited viewport width
-- [ ] add initial load screen
-- [ ] add video player :3
-- [ ] decorate
+- [x] add initial load screen
+- [ ] ~~add video player :3~~ no time ;;-;;
+- [x] decorate
 - [ ] <span style="color:#39c5bb">miku miku beammmmmmmmm </span>
 - [ ] is this public? thank god nobody will check this, right?
 
