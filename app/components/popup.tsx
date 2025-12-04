@@ -33,7 +33,7 @@ const Popup = () => {
       setStep(step + 1);
     } else {
       setIsVisible(false);
-      // localStorage.setItem('hasSeenWelcomePopup', 'true');
+      localStorage.setItem('hasSeenWelcomePopup', 'true');
     }
   };
 
@@ -44,6 +44,7 @@ const Popup = () => {
   const buttonText = step === welcomeText.length - 1 ? 'start!!!!!!!!!!!!' : 'next';
 
   return (
+    
     <div className={`popup-overlay ${inconsolata.className}`} >
       <div className="event-details popup-window">
         <p className="popup-text">{welcomeText[step]}</p>

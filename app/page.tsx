@@ -213,7 +213,7 @@ export default function Home() {
       <Popup />
       <header className="header">
         <h1>a vocaloid timeline<span className="subtitle">(from a western perspective)</span></h1>
-        <p> by annie liu, for gen mus 175. click a timeline item to get started!!</p>
+        <p> by annie liu for gen mus 175. click a timeline item to get started!!</p>
       </header>
 
       <div className="timeline-track">
@@ -226,7 +226,7 @@ export default function Home() {
             className="year-marker"
             style={{ left: `${marker.position}%` }}
           >
-            <span className="year-label">{marker.year}</span>
+            <span className="year-label">{marker.year.toString().slice(2,)}</span>
           </div>
         ))}
 
@@ -250,7 +250,7 @@ export default function Home() {
 
       {/* legend */}
       <div className="node-legend">
-        <p style ={{left:"-40px"}}> legend:</p>
+        <p> legend:</p>
         <div className="node song" style={{position: "absolute"}}>
           <div className="node-dot"></div>
           <label> song </label>
@@ -323,7 +323,7 @@ export default function Home() {
 
       <footer>
         <p style={{ textAlign: "right", marginTop: "2rem", marginRight: "1rem" , fontSize:"0.8rem", color:"var(--text-color)", opacity:"0.4"}}>
-          data scraped from vocaloard, current as of november 2025
+          song view count data scraped from vocaloard, current as of november 2025
         </p>
       </footer>
 
