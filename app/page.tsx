@@ -50,7 +50,7 @@ const VERTICAL_OFFSET_STEP = 15;
 const MAX_VERTICAL_LEVEL = 20;
 
 //bg mgmt
-const DEFAULT = 'url(/Hatsune_Miku.png)';
+const DEFAULT = 'url(/miku.jpg)';
 const CLICK = 'url(/Hatsune_Miku_V2.png)';
 
 export default function Home() {
@@ -61,7 +61,7 @@ export default function Home() {
   //yes this should be css, but i am tired and the blend mode keeps not working. lol.
   useEffect(() => {
     document.body.style.backgroundImage = bg;
-    document.body.style.backgroundSize = '45%';
+    document.body.style.backgroundSize = '35%';
     document.body.style.backgroundPosition = 'bottom right';
     document.body.style.backgroundBlendMode = 'multiply';
     document.body.style.backgroundRepeat = 'no-repeat';
@@ -210,7 +210,7 @@ export default function Home() {
     
     <main className={`histography-container ${inconsolata.className}`}>
       <header className="header">
-        <h1>vocaloid history :D <span className="subtitle">(a western view)</span></h1>
+        <h1>a vocaloid timeline<span className="subtitle">(from a western perspective)</span></h1>
         <p> by annie liu, for gen mus 175. click a timeline item to get started!!</p>
       </header>
 
@@ -244,6 +244,22 @@ export default function Home() {
           </div>
         ))}
       </div>
+
+
+      {/* legend */}
+      <div className="node-legend">
+        <p style ={{left:"-40px"}}> legend:</p>
+        <div className="node song" style={{position: "absolute"}}>
+          <div className="node-dot"></div>
+          <label> song </label>
+        </div>
+
+        <div className="node event" style={{position: "absolute", left: "60px"}}>
+          <div className="node-dot"></div>
+          <label> event </label>
+        </div>
+      </div>
+
 
       {/* EVENT DETAILS PANEL */}
       {selectedEvent && (
